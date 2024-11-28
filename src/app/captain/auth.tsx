@@ -1,4 +1,4 @@
-import { View, ScrollView, Image, TouchableOpacity } from "react-native";
+import { View, ScrollView, Image, TouchableOpacity, Alert } from "react-native";
 import React, { useState } from "react";
 import { authStyles } from "@/styles/authStyles";
 import { commonStyles } from "@/styles/commonStyles";
@@ -8,14 +8,18 @@ import CustomText from "@/components/shared/CustomText";
 import PhoneInput from "@/components/shared/PhoneInput";
 import CustomButton from "@/components/shared/CustomButton";
 import { resetAndNavigate } from "@/utils/Helpers";
+import { signin } from "@/service/authService";
 
 const Auth = () => {
   const [phone, setPhone] = useState("");
 
-  const handleNext = () => {
-    resetAndNavigate("/captain/home");
+  const handleNext = async () => {
+    if (!phone && phone.length !== 10) {
+      Alert.alert("Bro enter your phone number");
+      return;
+    }
+    signin({ role: "captain", phone });
   };
-
   return (
     <SafeAreaView style={authStyles.container}>
       <ScrollView contentContainerStyle={authStyles.container}>
