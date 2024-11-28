@@ -38,12 +38,14 @@
     },
     "plugins": [
       "expo-router",
+      "react-native-edge-to-edge",
       [
         "expo-location",
         {
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
-      ]
+      ],
+      "react-native-edge-to-edge"
     ],
     "experiments": {
       "typedRoutes": true
