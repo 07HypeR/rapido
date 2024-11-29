@@ -6,10 +6,13 @@ import axios from "axios";
 import { Alert } from "react-native";
 import { BASE_URL } from "./config";
 
-export const signin = async (payload: {
-  role: "customer" | "captain";
-  phone: string;
-}) => {
+export const signin = async (
+  payload: {
+    role: "customer" | "captain";
+    phone: string;
+  },
+  updateAccessToken: () => void
+) => {
   const { setUser } = useUserStore.getState();
   const { setUser: setCaptainUser } = useCaptainStore.getState();
 
@@ -29,6 +32,7 @@ export const signin = async (payload: {
     } else {
       resetAndNavigate("/captain/home");
     }
+    updateAccessToken();
   } catch (error: any) {
     Alert.alert("Oh! Dang there was an error");
     console.log(
