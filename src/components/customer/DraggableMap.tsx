@@ -1,5 +1,5 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, memo, useEffect, useRef, useState } from "react";
 import MapView, { Marker, Region } from "react-native-maps";
 import { customMapStyle, indiaIntialRegion } from "@/utils/CustomMap";
 import { mapStyles } from "@/styles/mapStyles";
@@ -11,11 +11,13 @@ import { useIsFocused } from "@react-navigation/native";
 import * as Location from "expo-location";
 import { reverseGeocode } from "@/utils/mapUtils";
 import haversine from "haversine-distance";
+import { useWS } from "@/service/WSProvider";
 
 const DraggableMap: FC<{ height: number }> = ({ height }) => {
   const mapRef = useRef<MapView>(null);
   const isFocused = useIsFocused();
   const [markers, setMarkers] = useState<any>([]);
+  const { emit, on, off } = useWS();
 
   const MAX_DISTANCE_THRESHOLD = 10000;
 
@@ -77,7 +79,78 @@ const DraggableMap: FC<{ height: number }> = ({ height }) => {
     }
   };
 
-  const handleGpsButtonPress = async () => {};
+  const handleGpsButtonPress = async () => {
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      const current_location = await Location.getCurrentPositionAsync({});
+      const { latitude, longitude } = current_location?.coords;
+      mapRef?.current?.fitToCoordinates([{ latitude, longitude }], {
+        edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
+        animated: true,
+      });
+      const address = await reverseGeocode(latitude, longitude);
+      setLocation({
+        longitude: longitude,
+        latitude: latitude,
+        address: address,
+      });
+    } catch (error) {
+      console.log("Error getting location", error);
+    }
+  };
+
+  // REAL CAPTAIN MARKERS
+  // useEffect(() => {
+  //   if (location?.latitude && location?.longitude && isFocused) {
+  //     emit("subscribeToZone", {
+  //       latitude: location.latitude,
+  //       longitude: location.longitude,
+  //     });
+
+  //     on("nearbyCaptains", (captains: any[]) => {
+  //       const updatedMarkers = captains?.map((captain) => ({
+  //         id: captain?.id,
+  //         latitude: captain?.coords?.latitude,
+  //         longitude: captain?.coords?.longitude,
+  //         type: "captain",
+  //         rotation: captain.coords.heading,
+  //         visible: true,
+  //       }));
+
+  //       setMarkers(updatedMarkers);
+  //     });
+
+  //     return () => {
+  //       off("nearbyCaptains");
+  //     };
+  //   }
+  // }, [location, emit, on, off, isFocused]);
+
+  // SIMULATION OF CAPTAIN MARKERS
+
+  useEffect(() => {
+    generateRandomMarkers();
+  }, [location]);
+
+  const generateRandomMarkers = () => {
+    if (!location?.latitude || !location?.longitude || outOfRange) return;
+
+    const types = ["bike", "auto", "cab"];
+    const newMarkers = Array.from({ length: 20 }, (_, index) => {
+      const randomType = types[Math.floor(Math.random() * types.length)];
+      const randomRotation = Math.floor(Math.random() * 360);
+
+      return {
+        id: index,
+        latitude: location?.latitude + (Math.random() - 0.5) * 0.01,
+        longitude: location?.longitude + (Math.random() - 0.5) * 0.01,
+        type: randomType,
+        rotation: randomRotation,
+        visible: true,
+      };
+    });
+    setMarkers(newMarkers);
+  };
 
   return (
     <View style={{ height: height, width: "100%" }}>
@@ -99,7 +172,43 @@ const DraggableMap: FC<{ height: number }> = ({ height }) => {
         showsScale={false}
         showsBuildings={false}
         showsPointsOfInterest={false}
-        showsUserLocation={true}></MapView>
+        showsUserLocation={true}>
+        {markers
+          .filter(
+            (marker: any) =>
+              marker.latitude && marker.longitude && marker.visible
+          )
+          .map(
+            (marker: any, index: number) =>
+              marker.visible && (
+                <Marker
+                  key={index}
+                  zIndex={index + 1}
+                  flat
+                  anchor={{ x: 0.5, y: 0.5 }}
+                  coordinate={{
+                    latitude: marker.latitude,
+                    longitude: marker.longitude,
+                  }}>
+                  <View
+                    style={{
+                      transform: [{ rotate: `${marker?.rotation}deg` }],
+                    }}>
+                    <Image
+                      source={
+                        marker?.type === "bike"
+                          ? require("@/assets/icons/bike_marker.png")
+                          : marker?.type === "auto"
+                          ? require("@/assets/icons/auto_marker.png")
+                          : require("@/assets/icons/cab_marker.png")
+                      }
+                      style={{ height: 40, width: 40, resizeMode: "contain" }}
+                    />
+                  </View>
+                </Marker>
+              )
+          )}
+      </MapView>
 
       <View style={mapStyles.centerMarkerContainer}>
         <Image
@@ -127,4 +236,4 @@ const DraggableMap: FC<{ height: number }> = ({ height }) => {
   );
 };
 
-export default DraggableMap;
+export default memo(DraggableMap);

@@ -6,7 +6,7 @@ import LocationBar from "@/components/customer/LocationBar";
 import { screenHeight } from "@/utils/Constants";
 import DraggableMap from "@/components/customer/DraggableMap";
 
-const androidHeights = [screenHeight * 0.12, screenHeight * 0.42];
+const androidHeights = [screenHeight * 0.2, screenHeight * 0.5];
 const iosHeights = [screenHeight * 0.2, screenHeight * 0.5];
 
 const Home = () => {
