@@ -7,6 +7,7 @@ import { screenHeight } from "@/utils/Constants";
 import DraggableMap from "@/components/customer/DraggableMap";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import SheetContent from "@/components/customer/SheetContent";
+import { SystemBars } from "react-native-edge-to-edge";
 
 const androidHeights = [screenHeight * 0.2, screenHeight * 0.5];
 const iosHeights = [screenHeight * 0.2, screenHeight * 0.5];
@@ -30,7 +31,7 @@ const Home = () => {
 
   return (
     <View style={homeStyles.container}>
-      <StatusBar style="light" />
+      <SystemBars style="light" />
       <LocationBar />
       <DraggableMap height={mapHeight} />
 

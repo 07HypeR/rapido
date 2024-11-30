@@ -257,7 +257,6 @@ const MapPickerModel: FC<MapPickerModelProps> = ({
                       longitude: region?.longitude,
                       address: address,
                     });
-                    onClose();
                   }}>
                   <Text style={modalStyles.buttonText}>Set Address</Text>
                 </TouchableOpacity>
