@@ -7,7 +7,12 @@ import { rideStyles } from "@/styles/rideStyles";
 import { SystemBars } from "react-native-edge-to-edge";
 import CustomText from "@/components/shared/CustomText";
 import { commonStyles } from "@/styles/commonStyles";
-
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { RFValue } from "react-native-responsive-fontsize";
+import { router } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import CustomButton from "@/components/shared/CustomButton";
+import RoutesMap from "@/components/customer/RoutesMap";
 const RideBooking = () => {
   const route = useRoute() as any;
   const item = route?.params as any;
@@ -63,9 +68,26 @@ const RideBooking = () => {
     setSelectedOption(type);
   }, []);
 
+  const handleRideBooking = async () => {
+    setLoading(true);
+  };
+
   return (
     <View style={rideStyles.container}>
       <SystemBars style="light" />
+
+      {item?.drop_latitude && location?.latitude && (
+        <RoutesMap
+          drop={{
+            latitude: parseFloat(item?.drop_latitude),
+            longitude: parseFloat(item?.drop_longitude),
+          }}
+          pickup={{
+            latitude: parseFloat(location?.latitude),
+            longitude: parseFloat(location?.longitude),
+          }}
+        />
+      )}
 
       <View style={rideStyles.rideSelectionContainer}>
         <View style={rideStyles?.offerContainer}>
@@ -86,6 +108,69 @@ const RideBooking = () => {
             />
           ))}
         </ScrollView>
+      </View>
+
+      <TouchableOpacity
+        style={rideStyles.backButton}
+        onPress={() => router.back()}>
+        <MaterialIcons
+          name="arrow-back-ios"
+          size={RFValue(14)}
+          style={{ left: 4 }}
+          color="black"
+        />
+      </TouchableOpacity>
+
+      <View style={rideStyles.bookingContainer}>
+        <View style={commonStyles.flexRowBetween}>
+          <View
+            style={[
+              rideStyles.couponContainer,
+              { borderRightWidth: 1, borderRightColor: "#ccc" },
+            ]}>
+            <Image
+              source={require("@/assets/icons/rupee.png")}
+              style={rideStyles?.icon}
+            />
+            <View>
+              <CustomText fontFamily="Medium" fontSize={12}>
+                Cash
+              </CustomText>
+              <CustomText
+                fontFamily="Medium"
+                fontSize={10}
+                style={{ opacity: 0.7 }}>
+                Far {item?.distanceInKm} KM
+              </CustomText>
+            </View>
+            <Ionicons name="chevron-forward" size={RFValue(14)} color="#777" />
+          </View>
+          <View style={rideStyles.couponContainer}>
+            <Image
+              source={require("@/assets/icons/coupon.png")}
+              style={rideStyles?.icon}
+            />
+            <View>
+              <CustomText fontFamily="Medium" fontSize={12}>
+                GORAPIDO
+              </CustomText>
+              <CustomText
+                fontFamily="Medium"
+                fontSize={10}
+                style={{ opacity: 0.7 }}>
+                Far {item?.distanceInKm} KM
+              </CustomText>
+            </View>
+            <Ionicons name="chevron-forward" size={RFValue(14)} color="#777" />
+          </View>
+        </View>
+
+        <CustomButton
+          title="Book Ride"
+          disabled={loading}
+          loading={loading}
+          onPress={handleRideBooking}
+        />
       </View>
     </View>
   );
