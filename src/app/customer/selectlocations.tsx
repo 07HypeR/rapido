@@ -21,7 +21,7 @@ import LocationItem from "@/components/customer/LocationItem";
 import MapPickerModel from "@/components/customer/MapPickerModel";
 import { SystemBars } from "react-native-edge-to-edge";
 
-const Selectlocations = () => {
+const SelectLocations = () => {
   const { location, setLocation } = useUserStore();
   const [pickup, setPickup] = useState("");
   const [pickupCoords, setPickupCoords] = useState<any>(null);
@@ -220,4 +220,4 @@ const Selectlocations = () => {
   );
 };
 
-export default Selectlocations;
+export default SelectLocations;

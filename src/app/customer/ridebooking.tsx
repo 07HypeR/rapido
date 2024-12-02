@@ -13,6 +13,7 @@ import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import CustomButton from "@/components/shared/CustomButton";
 import RoutesMap from "@/components/customer/RoutesMap";
+import { createRide } from "@/service/rideService";
 const RideBooking = () => {
   const route = useRoute() as any;
   const item = route?.params as any;
@@ -70,6 +71,29 @@ const RideBooking = () => {
 
   const handleRideBooking = async () => {
     setLoading(true);
+    await createRide({
+      vehicle:
+        selectedOption === "Cab Economy"
+          ? "cabEconomy"
+          : selectedOption === "Cab Premium"
+          ? "cabPremium"
+          : selectedOption === "Bike"
+          ? "bike"
+          : "auto",
+
+      drop: {
+        latitude: parseFloat(item.drop_latitude),
+        longitude: parseFloat(item.drop_longitude),
+        address: item?.drop_address,
+      },
+      pickup: {
+        latitude: parseFloat(location.latitude),
+        longitude: parseFloat(location.longitude),
+        address: location.address,
+      },
+    });
+
+    setLoading(false);
   };
 
   return (
