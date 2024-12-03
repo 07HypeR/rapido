@@ -1,4 +1,4 @@
-import { View, Text, Platform } from "react-native";
+import { View, Text, Platform, Alert } from "react-native";
 import React, {
   memo,
   useCallback,
@@ -12,6 +12,8 @@ import { screenHeight } from "@/utils/Constants";
 import { useWS } from "@/service/WSProvider";
 import { rideStyles } from "@/styles/rideStyles";
 import { SystemBars } from "react-native-edge-to-edge";
+import { resetAndNavigate } from "@/utils/Helpers";
+import LiveTrackingMap from "@/components/customer/LiveTrackingMap";
 
 const androidHeights = [screenHeight * 0.2, screenHeight * 0.5];
 const iosHeights = [screenHeight * 0.2, screenHeight * 0.5];
@@ -50,13 +52,68 @@ const LiveRide = () => {
           emit("searchCaptain", id);
         }
       });
+
+      on("rideUpdate", (data) => {
+        setRideData(data);
+      });
+
+      on("rideCanceled", (error) => {
+        resetAndNavigate("/captain/home");
+        Alert.alert("Ride Canceled");
+      });
+
+      on("error", (error) => {
+        resetAndNavigate("/captain/home");
+        Alert.alert("Oh dang! No Riders Found");
+      });
     }
+
+    return () => {
+      off("rideData");
+      off("rideUpdate");
+      off("rideCanceled");
+      off("error");
+    };
   }, [id, emit, on, off]);
+
+  useEffect(() => {
+    if (rideData?.captain?._id) {
+      emit("subscribeToCaptainLocation", rideData?.captain?._id);
+      on("captainLocationUpdate", (data) => {
+        setCaptainCoords(data?.coords);
+      });
+      return () => {
+        off("captainLocationUpdate");
+      };
+    }
+  }, [rideData]);
 
   return (
     <View style={rideStyles.container}>
       <SystemBars style="light" />
-      <Text>LiveRide</Text>
+      {rideData && (
+        <LiveTrackingMap
+          height={mapHeight}
+          status={rideData?.status}
+          drop={{
+            latitude: parseFloat(rideData?.drop?.latitude),
+            longitude: parseFloat(rideData?.drop?.longitude),
+          }}
+          pickup={{
+            latitude: parseFloat(rideData?.pickup?.latitude),
+            longitude: parseFloat(rideData?.pickup?.longitude),
+          }}
+          captain={
+            captainCoords
+              ? {
+                  latitude: captainCoords.latitude,
+                  longitude: captainCoords.longitude,
+                  heading: captainCoords.heading,
+                }
+              : {}
+          }
+        />
+      )}
     </View>
   );
 };
