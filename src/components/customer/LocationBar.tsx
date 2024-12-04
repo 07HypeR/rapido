@@ -9,6 +9,7 @@ import { Colors } from "@/utils/Constants";
 import { router } from "expo-router";
 import CustomText from "../shared/CustomText";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { logout } from "@/service/authService";
 
 const LocationBar = () => {
   const { location } = useUserStore();
@@ -18,7 +19,7 @@ const LocationBar = () => {
     <View style={uiStyles.absoluteTop}>
       <SafeAreaView />
       <View style={uiStyles.container}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => logout()}>
           <Ionicons
             name="menu-outline"
             size={RFValue(18)}

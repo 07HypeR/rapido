@@ -4,7 +4,6 @@ import { useRoute } from "@react-navigation/native";
 import { useUserStore } from "@/store/useStore";
 import { calculateFare } from "@/utils/mapUtils";
 import { rideStyles } from "@/styles/rideStyles";
-import { SystemBars } from "react-native-edge-to-edge";
 import CustomText from "@/components/shared/CustomText";
 import { commonStyles } from "@/styles/commonStyles";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -14,6 +13,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import CustomButton from "@/components/shared/CustomButton";
 import RoutesMap from "@/components/customer/RoutesMap";
 import { createRide } from "@/service/rideService";
+import { StatusBar } from "expo-status-bar";
 const RideBooking = () => {
   const route = useRoute() as any;
   const item = route?.params as any;
@@ -98,7 +98,7 @@ const RideBooking = () => {
 
   return (
     <View style={rideStyles.container}>
-      <SystemBars style="light" />
+      <StatusBar style="light" backgroundColor="orange" translucent={false} />
 
       {item?.drop_latitude && location?.latitude && (
         <RoutesMap

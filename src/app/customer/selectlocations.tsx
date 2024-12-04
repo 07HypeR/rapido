@@ -19,7 +19,6 @@ import { locationStyles } from "@/styles/locationStyles";
 import { useUserStore } from "@/store/useStore";
 import LocationItem from "@/components/customer/LocationItem";
 import MapPickerModel from "@/components/customer/MapPickerModel";
-import { SystemBars } from "react-native-edge-to-edge";
 
 const SelectLocations = () => {
   const { location, setLocation } = useUserStore();
@@ -121,7 +120,7 @@ const SelectLocations = () => {
 
   return (
     <View style={homeStyles.container}>
-      <SystemBars style="light" />
+      <StatusBar style="light" backgroundColor="orange" translucent={false} />
       <SafeAreaView />
       <TouchableOpacity
         style={commonStyles.flexRow}

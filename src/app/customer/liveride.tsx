@@ -11,14 +11,14 @@ import { useRoute } from "@react-navigation/native";
 import { screenHeight } from "@/utils/Constants";
 import { useWS } from "@/service/WSProvider";
 import { rideStyles } from "@/styles/rideStyles";
-import { SystemBars } from "react-native-edge-to-edge";
 import { resetAndNavigate } from "@/utils/Helpers";
 import LiveTrackingMap from "@/components/customer/LiveTrackingMap";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import SearchingRideSheet from "@/components/customer/SearchingRideSheet";
 import LiveTrackingSheet from "@/components/customer/LiveTrackingSheet";
+import { StatusBar } from "expo-status-bar";
 
-const androidHeights = [screenHeight * 0.2, screenHeight * 0.5];
+const androidHeights = [screenHeight * 0.12, screenHeight * 0.45];
 const iosHeights = [screenHeight * 0.2, screenHeight * 0.5];
 
 const LiveRide = () => {
@@ -61,12 +61,12 @@ const LiveRide = () => {
       });
 
       on("rideCanceled", (error) => {
-        resetAndNavigate("/captain/home");
+        resetAndNavigate("/customer/home");
         Alert.alert("Ride Canceled");
       });
 
       on("error", (error) => {
-        resetAndNavigate("/captain/home");
+        resetAndNavigate("/customer/home");
         Alert.alert("Oh dang! No Riders Found");
       });
     }
@@ -93,7 +93,7 @@ const LiveRide = () => {
 
   return (
     <View style={rideStyles.container}>
-      <SystemBars style="light" />
+      <StatusBar style="light" backgroundColor="orange" translucent={false} />
       {rideData && (
         <LiveTrackingMap
           height={mapHeight}
@@ -119,7 +119,17 @@ const LiveRide = () => {
       )}
 
       {rideData ? (
-        <BottomSheet ref={bottomSheetRef} onChange={handleSheetChanges}>
+        <BottomSheet
+          ref={bottomSheetRef}
+          index={1}
+          handleIndicatorStyle={{
+            backgroundColor: "#ccc",
+          }}
+          enableOverDrag={false}
+          enableDynamicSizing
+          style={{ zIndex: 4 }}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}>
           <BottomSheetScrollView contentContainerStyle={rideStyles?.container}>
             {rideData?.status === "SEARCHING_FOR_CAPTAIN" ? (
               <SearchingRideSheet item={rideData} />

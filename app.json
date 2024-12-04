@@ -17,13 +17,13 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.stoic.rapido",
       "config": {
-        "googleMapsApiKey": "AIzaSyB-7-tnJAhvCAJKQjfNunN68DDFZO1RE4E"
+        "googleMapsApiKey": "AIzaSyCWQnBsAUbUTsV2M-3DvReaMz-a_SYBvg4"
       }
     },
     "android": {
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyB-7-tnJAhvCAJKQjfNunN68DDFZO1RE4E"
+          "apiKey": "AIzaSyCWQnBsAUbUTsV2M-3DvReaMz-a_SYBvg4"
         }
       },
       "adaptiveIcon": {
@@ -39,14 +39,12 @@
     },
     "plugins": [
       "expo-router",
-      "react-native-edge-to-edge",
       [
         "expo-location",
         {
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
-      ],
-      "react-native-edge-to-edge"
+      ]
     ],
     "experiments": {
       "typedRoutes": true

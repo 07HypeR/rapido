@@ -1,5 +1,11 @@
 import { View, Text, Platform } from "react-native";
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { homeStyles } from "@/styles/homeStyles";
 import { StatusBar } from "expo-status-bar";
 import LocationBar from "@/components/customer/LocationBar";
@@ -7,9 +13,9 @@ import { screenHeight } from "@/utils/Constants";
 import DraggableMap from "@/components/customer/DraggableMap";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import SheetContent from "@/components/customer/SheetContent";
-import { SystemBars } from "react-native-edge-to-edge";
+import { getMyRides } from "@/service/rideService";
 
-const androidHeights = [screenHeight * 0.2, screenHeight * 0.5];
+const androidHeights = [screenHeight * 0.12, screenHeight * 0.42];
 const iosHeights = [screenHeight * 0.2, screenHeight * 0.5];
 
 const Home = () => {
@@ -29,9 +35,13 @@ const Home = () => {
     setMapHeight(height);
   }, []);
 
+  useEffect(() => {
+    getMyRides();
+  }, []);
+
   return (
     <View style={homeStyles.container}>
-      <SystemBars style="light" />
+      <StatusBar style="light" backgroundColor="orange" translucent={false} />
       <LocationBar />
       <DraggableMap height={mapHeight} />
 
