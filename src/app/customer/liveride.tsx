@@ -1,4 +1,4 @@
-import { View, Text, Platform, Alert } from "react-native";
+import { View, Text, Platform, Alert, ActivityIndicator } from "react-native";
 import React, {
   memo,
   useCallback,
@@ -14,6 +14,9 @@ import { rideStyles } from "@/styles/rideStyles";
 import { SystemBars } from "react-native-edge-to-edge";
 import { resetAndNavigate } from "@/utils/Helpers";
 import LiveTrackingMap from "@/components/customer/LiveTrackingMap";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import SearchingRideSheet from "@/components/customer/SearchingRideSheet";
+import LiveTrackingSheet from "@/components/customer/LiveTrackingSheet";
 
 const androidHeights = [screenHeight * 0.2, screenHeight * 0.5];
 const iosHeights = [screenHeight * 0.2, screenHeight * 0.5];
@@ -113,6 +116,23 @@ const LiveRide = () => {
               : {}
           }
         />
+      )}
+
+      {rideData ? (
+        <BottomSheet ref={bottomSheetRef} onChange={handleSheetChanges}>
+          <BottomSheetScrollView contentContainerStyle={rideStyles?.container}>
+            {rideData?.status === "SEARCHING_FOR_CAPTAIN" ? (
+              <SearchingRideSheet item={rideData} />
+            ) : (
+              <LiveTrackingSheet item={rideData} />
+            )}
+          </BottomSheetScrollView>
+        </BottomSheet>
+      ) : (
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <ActivityIndicator color="black" size="small" />
+        </View>
       )}
     </View>
   );
