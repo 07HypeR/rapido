@@ -89,7 +89,7 @@ const RoutesMap: FC<{ drop: any; pickup: any }> = ({ drop, pickup }) => {
             strokeWidth={5}
             precision="high"
             onReady={() => fitToMarkersWithDelay()}
-            strokeColor="orange"
+            strokeColor="#D2D2D2"
             onError={(err) => console.log("Ditections Error", err)}
           />
         )}

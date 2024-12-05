@@ -126,7 +126,7 @@ const LiveRide = () => {
             backgroundColor: "#ccc",
           }}
           enableOverDrag={false}
-          enableDynamicSizing
+          enableDynamicSizing={false}
           style={{ zIndex: 4 }}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}>

@@ -15,7 +15,7 @@ import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import SheetContent from "@/components/customer/SheetContent";
 import { getMyRides } from "@/service/rideService";
 
-const androidHeights = [screenHeight * 0.12, screenHeight * 0.42];
+const androidHeights = [screenHeight * 0.2, screenHeight * 0.5];
 const iosHeights = [screenHeight * 0.2, screenHeight * 0.5];
 
 const Home = () => {
