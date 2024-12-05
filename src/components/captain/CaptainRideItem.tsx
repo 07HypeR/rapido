@@ -1,5 +1,5 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import React, { FC } from "react";
+import { View, Image, TouchableOpacity } from "react-native";
+import React, { FC, memo } from "react";
 import { useCaptainStore } from "@/store/captainStore";
 import { acceptRideOffer } from "@/service/rideService";
 import Animated, { FadeInLeft, FadeInRight } from "react-native-reanimated";
@@ -9,14 +9,15 @@ import { calculateDistance, vehicleIcons } from "@/utils/mapUtils";
 import { rideStyles } from "@/styles/rideStyles";
 import CustomText from "../shared/CustomText";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import CounterButton from "./CounterButton";
 
 type VehicleType = "bike" | "auto" | "cabEconomy" | "cabPremium";
 
 interface RideItem {
   _id: string;
   vehicle?: VehicleType;
-  pickup?: { address: string; latitude: any; longitude: any };
-  drop?: { address: string; latitude: any; longitude: any };
+  pickup: { address: string; latitude: number; longitude: number };
+  drop?: { address: string; latitude: number; longitude: number };
   fare?: number;
   distance: number;
 }
@@ -128,9 +129,16 @@ const CaptainRideItem: FC<{ item: RideItem; removeIt: () => void }> = ({
         <TouchableOpacity>
           <Ionicons name="close-circle" size={24} color="black" />
         </TouchableOpacity>
+
+        <CounterButton
+          onCountdownEnd={removeIt}
+          initialCount={12}
+          onPress={acceptRide}
+          title="Accept"
+        />
       </View>
     </Animated.View>
   );
 };
 
-export default CaptainRideItem;
+export default memo(CaptainRideItem);

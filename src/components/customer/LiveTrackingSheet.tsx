@@ -34,23 +34,24 @@ const LiveTrackingSheet: FC<{ item: RideItem }> = ({ item }) => {
               style={rideStyles.rideIcon}
             />
           )}
+          <View>
+            <CustomText fontSize={10}>
+              {item?.status === "START"
+                ? "Captain near you"
+                : item?.status === "ARRIVED"
+                ? "HAPPY JOURNEY"
+                : "WOHOO 🎉"}
+            </CustomText>
 
-          <CustomText fontSize={10}>
-            {item?.status === "START"
-              ? "Captain near you"
-              : item?.status === "ARRIVED"
-              ? "HAPPY JOURNEY"
-              : "WOHOO 🎉"}
-          </CustomText>
-
-          <CustomText>
-            {item?.status === "START" ? `OTP - ${item?.otp}` : "🕶️"}
-          </CustomText>
+            <CustomText>
+              {item?.status === "START" ? `OTP - ${item?.otp}` : "🕶️"}
+            </CustomText>
+          </View>
         </View>
         <CustomText fontSize={11} numberOfLines={1} fontFamily="Medium">
           +91{" "}
           {item?.captain?.phone &&
-            item?.captain?.phone?.slice(0.5) +
+            item?.captain?.phone?.slice(0, 5) +
               " " +
               item?.captain?.phone?.slice(5)}
         </CustomText>
