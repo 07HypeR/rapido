@@ -8,16 +8,17 @@ import { getPoints } from "@/utils/mapUtils";
 import { mapStyles } from "@/styles/mapStyles";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { RFValue } from "react-native-responsive-fontsize";
+import CustomText from "../shared/CustomText";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 const apikey = process.env.EXPO_PUBLIC_MAP_API_KEY || "";
 
-const LiveTrackingMap: FC<{
-  height: number;
+const CaptainLiveTracking: FC<{
   drop: any;
   pickup: any;
   captain: any;
   status: string;
-}> = ({ drop, status, height, pickup, captain }) => {
+}> = ({ drop, status, pickup, captain }) => {
   const mapRef = useRef<MapView>(null);
   const [isUserInteracting, setisUserInteracting] = useState(false);
 
@@ -56,6 +57,12 @@ const LiveTrackingMap: FC<{
     }
   };
 
+  const fitToMarkersWithDelay = () => {
+    setTimeout(() => {
+      fitToMarkers();
+    }, 500);
+  };
+
   const calculateInitialRegion = () => {
     if (pickup?.latitude && drop?.latitude) {
       const latitude = (pickup.latitude + drop.latitude) / 2;
@@ -78,7 +85,7 @@ const LiveTrackingMap: FC<{
   }, [drop?.latitude, pickup?.latitude, captain.latitude]);
 
   return (
-    <View style={{ height: height, width: "100%" }}>
+    <View style={{ flex: 1 }}>
       <MapView
         ref={mapRef}
         followsUserLocation
@@ -94,9 +101,9 @@ const LiveTrackingMap: FC<{
         onRegionChangeComplete={() => setisUserInteracting(false)}>
         {captain?.latitude && pickup?.latitude && (
           <MapViewDirections
-            origin={captain}
-            destination={status === "START" ? pickup : drop}
-            onReady={fitToMarkers}
+            origin={status === "START" ? pickup : captain}
+            destination={status === "START" ? captain : drop}
+            onReady={fitToMarkersWithDelay}
             apikey={apikey}
             strokeColor={Colors.iosColor}
             strokeWidth={5}
@@ -163,6 +170,14 @@ const LiveTrackingMap: FC<{
         )}
       </MapView>
 
+      <TouchableOpacity style={mapStyles.gpsLiveButton} onPress={() => {}}>
+        <CustomText fontFamily="SemiBold" fontSize={10}>
+          Open Live Gps
+        </CustomText>
+
+        <FontAwesome6 name="location-arrow" size={RFValue(16)} color="#000" />
+      </TouchableOpacity>
+
       <TouchableOpacity style={mapStyles.gpsButton} onPress={fitToMarkers}>
         <MaterialCommunityIcons
           name="crosshairs-gps"
@@ -174,4 +189,4 @@ const LiveTrackingMap: FC<{
   );
 };
 
-export default memo(LiveTrackingMap);
+export default memo(CaptainLiveTracking);

@@ -7,6 +7,7 @@ import { useWS } from "@/service/WSProvider";
 import { useRoute } from "@react-navigation/native";
 import * as Location from "expo-location";
 import { resetAndNavigate } from "@/utils/Helpers";
+import CaptainLiveTracking from "@/components/captain/CaptainLiveTracking";
 
 const CaptainLiveRide = () => {
   const [isOtpModalVisible, setIsOtpModalVisible] = useState(false);
@@ -102,6 +103,25 @@ const CaptainLiveRide = () => {
   return (
     <View style={rideStyles.container}>
       <StatusBar style="light" backgroundColor="orange" translucent={false} />
+
+      {rideData && (
+        <CaptainLiveTracking
+          status={rideData?.status}
+          drop={{
+            latitude: parseFloat(rideData?.drop.latitude),
+            longitude: parseFloat(rideData?.drop.longitude),
+          }}
+          pickup={{
+            latitude: parseFloat(rideData?.pickup.latitude),
+            longitude: parseFloat(rideData?.pickup.longitude),
+          }}
+          captain={{
+            latitude: location?.latitude,
+            longitude: location?.longitude,
+            heading: location?.heading,
+          }}
+        />
+      )}
     </View>
   );
 };
