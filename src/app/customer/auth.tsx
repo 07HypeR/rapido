@@ -1,8 +1,14 @@
-import { View, ScrollView, Image, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Alert,
+  SafeAreaView,
+} from "react-native";
 import React, { useState } from "react";
 import { authStyles } from "@/styles/authStyles";
 import { commonStyles } from "@/styles/commonStyles";
-import { SafeAreaView } from "react-native-safe-area-context";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import CustomText from "@/components/shared/CustomText";
 import PhoneInput from "@/components/shared/PhoneInput";

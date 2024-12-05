@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { uiStyles } from "@/styles/uiStyles";
 import { router } from "expo-router";

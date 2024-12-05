@@ -6,7 +6,6 @@ import { commonStyles } from "@/styles/commonStyles";
 import { vehicleIcons } from "@/utils/mapUtils";
 import CustomText from "../shared/CustomText";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { router } from "expo-router";
 import { resetAndNavigate } from "@/utils/Helpers";
 
 type VehicleType = "bike" | "auto" | "cabEconomy" | "cabPremium";

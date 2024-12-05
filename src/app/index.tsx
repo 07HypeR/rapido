@@ -1,4 +1,4 @@
-import { View, Text, Image, Alert } from "react-native";
+import { View, Image, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { commonStyles } from "@/styles/commonStyles";
 import { splashStyles } from "@/styles/splashStyles";

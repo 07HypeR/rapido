@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
 import React, { FC, memo, useEffect, useRef, useState } from "react";
 import MapView, { Marker, Region } from "react-native-maps";
 import { customMapStyle, indiaIntialRegion } from "@/utils/CustomMap";

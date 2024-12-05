@@ -1,4 +1,4 @@
-import { View, Text, Platform } from "react-native";
+import { View, Platform } from "react-native";
 import React, {
   useCallback,
   useEffect,

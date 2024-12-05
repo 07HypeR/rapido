@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, TouchableOpacity, Image } from "react-native";
 import React, { FC, memo, useEffect, useRef } from "react";
 import MapView, { Marker } from "react-native-maps";
 import { mapStyles } from "@/styles/mapStyles";

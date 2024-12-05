@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, TouchableOpacity, Image } from "react-native";
 import React, { FC } from "react";
 import { commonStyles } from "@/styles/commonStyles";
 import { locationStyles } from "@/styles/locationStyles";

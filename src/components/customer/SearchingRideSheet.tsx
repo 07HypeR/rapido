@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  Image,
-  ActivityIndicator,
-  TouchableOpacity,
-} from "react-native";
+import { View, Image, ActivityIndicator, TouchableOpacity } from "react-native";
 import React, { FC } from "react";
 import { useWS } from "@/service/WSProvider";
 import { rideStyles } from "@/styles/rideStyles";

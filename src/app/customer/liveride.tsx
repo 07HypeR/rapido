@@ -1,4 +1,4 @@
-import { View, Text, Platform, Alert, ActivityIndicator } from "react-native";
+import { View, Platform, Alert, ActivityIndicator } from "react-native";
 import React, {
   memo,
   useCallback,

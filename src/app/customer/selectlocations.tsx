@@ -1,8 +1,14 @@
-import { View, Text, TouchableOpacity, FlatList, Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  Image,
+  SafeAreaView,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { homeStyles } from "@/styles/homeStyles";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Colors } from "@/utils/Constants";
 import CustomText from "@/components/shared/CustomText";

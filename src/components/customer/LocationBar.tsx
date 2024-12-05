@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, SafeAreaView } from "react-native";
 import React from "react";
 import { uiStyles } from "@/styles/uiStyles";
 import { useUserStore } from "@/store/useStore";
@@ -8,7 +8,6 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { Colors } from "@/utils/Constants";
 import { router } from "expo-router";
 import CustomText from "../shared/CustomText";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { logout } from "@/service/authService";
 
 const LocationBar = () => {

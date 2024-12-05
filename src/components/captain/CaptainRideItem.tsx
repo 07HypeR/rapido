@@ -6,7 +6,6 @@ import Animated, { FadeInLeft, FadeInRight } from "react-native-reanimated";
 import { orderStyles } from "@/styles/captainStyles";
 import { commonStyles } from "@/styles/commonStyles";
 import { calculateDistance, vehicleIcons } from "@/utils/mapUtils";
-import { rideStyles } from "@/styles/rideStyles";
 import CustomText from "../shared/CustomText";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import CounterButton from "./CounterButton";
