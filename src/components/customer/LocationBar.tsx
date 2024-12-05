@@ -19,9 +19,11 @@ const LocationBar = () => {
     <View style={uiStyles.absoluteTop}>
       <SafeAreaView />
       <View style={uiStyles.container}>
-        <TouchableOpacity onPress={() => logout()}>
+        <TouchableOpacity
+          style={uiStyles.btn}
+          onPress={() => logout(disconnect)}>
           <Ionicons
-            name="menu-outline"
+            name="log-out-outline"
             size={RFValue(18)}
             color={Colors.text}
           />
