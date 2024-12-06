@@ -10,6 +10,7 @@ import { resetAndNavigate } from "@/utils/Helpers";
 import CaptainLiveTracking from "@/components/captain/CaptainLiveTracking";
 import { updateRideStatus } from "@/service/rideService";
 import CaptainActionButton from "@/components/captain/CaptainActionButton";
+import OtpInputModal from "@/components/captain/OtpInputModal";
 
 const CaptainLiveRide = () => {
   const [isOtpModalVisible, setIsOtpModalVisible] = useState(false);
@@ -149,6 +150,29 @@ const CaptainLiveRide = () => {
         }}
         color="#228B22"
       />
+
+      {isOtpModalVisible && (
+        <OtpInputModal
+          visible={isOtpModalVisible}
+          onClose={() => setIsOtpModalVisible(false)}
+          title="Enter OTP Below"
+          onConfirm={async (otp) => {
+            if (otp === rideData?.otp) {
+              const isSuccess = await updateRideStatus(
+                rideData?._id,
+                "ARRIVED"
+              );
+              if (isSuccess) {
+                setIsOtpModalVisible(false);
+              } else {
+                Alert.alert("Technical Error");
+              }
+            } else {
+              Alert.alert("Wrong OTP");
+            }
+          }}
+        />
+      )}
     </View>
   );
 };
