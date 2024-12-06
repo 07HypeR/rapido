@@ -22,11 +22,11 @@ const CaptainLiveRide = () => {
   const id = params.id;
 
   useEffect(() => {
-    let locationSubcription: any;
+    let locationSubscription: any;
     const startLocationUpdates = async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
+      const { status } = await Location.requestBackgroundPermissionsAsync();
       if (status === "granted") {
-        locationSubcription = await Location.watchPositionAsync(
+        locationSubscription = await Location.watchPositionAsync(
           {
             accuracy: Location.Accuracy.High,
             timeInterval: 5000,
@@ -66,8 +66,8 @@ const CaptainLiveRide = () => {
     startLocationUpdates();
 
     return () => {
-      if (locationSubcription) {
-        locationSubcription.remove();
+      if (locationSubscription) {
+        locationSubscription.remove();
       }
     };
   }, [id]);
@@ -81,7 +81,7 @@ const CaptainLiveRide = () => {
       });
 
       on("rideCanceled", (error) => {
-        console.log("Ride error", error);
+        console.log("Ride error:", error);
         resetAndNavigate("/captain/home");
         Alert.alert("Ride Canceled");
       });
@@ -91,7 +91,7 @@ const CaptainLiveRide = () => {
       });
 
       on("error", (error) => {
-        console.log("Ride error", error);
+        console.log("Ride error:", error);
         resetAndNavigate("/captain/home");
         Alert.alert("Oh Dang! There was an error");
       });

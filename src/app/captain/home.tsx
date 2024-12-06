@@ -23,11 +23,11 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    let locationsSubcription: any;
+    let locationsSubscription: any;
     const startLocationUpdates = async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status === "granted") {
-        locationsSubcription = await Location.watchPositionAsync(
+        locationsSubscription = await Location.watchPositionAsync(
           {
             accuracy: Location.Accuracy.High,
             timeInterval: 10000,
@@ -56,8 +56,8 @@ const Home = () => {
     }
 
     return () => {
-      if (locationsSubcription) {
-        locationsSubcription.remove();
+      if (locationsSubscription) {
+        locationsSubscription.remove();
       }
     };
   }, [onDuty, isFocused]);

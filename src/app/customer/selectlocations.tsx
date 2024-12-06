@@ -88,6 +88,10 @@ const SelectLocations = () => {
           drop_address: drop,
         },
       });
+      setDrop("");
+      setPickup("");
+      setDropCoords(null);
+      setPickupCoords(null);
       setMapModalVisible(false);
       console.log(`Distance is valid : ${distance.toFixed(2)} km`);
     }
