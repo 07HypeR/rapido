@@ -60,3 +60,14 @@ export const acceptRideOffer = async (rideId: string) => {
     console.log("Error:Get My Ride ", error);
   }
 };
+
+export const updateRideStatus = async (rideId: string, status: string) => {
+  try {
+    const res = await appAxios.patch(`/ride/update/${rideId}`, { status });
+    return true;
+  } catch (error: any) {
+    Alert.alert("Oh! Dang there was an error");
+    console.log(error);
+    return false;
+  }
+};

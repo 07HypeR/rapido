@@ -8,6 +8,7 @@ import { useRoute } from "@react-navigation/native";
 import * as Location from "expo-location";
 import { resetAndNavigate } from "@/utils/Helpers";
 import CaptainLiveTracking from "@/components/captain/CaptainLiveTracking";
+import { updateRideStatus } from "@/service/rideService";
 
 const CaptainLiveRide = () => {
   const [isOtpModalVisible, setIsOtpModalVisible] = useState(false);
@@ -122,6 +123,31 @@ const CaptainLiveRide = () => {
           }}
         />
       )}
+
+      <CaptainActionButton
+        rideData={rideData}
+        title={
+          rideData?.status === "START"
+            ? "ARRIVED"
+            : rideData?.status === "ARRIVED"
+            ? "COMPLETED"
+            : "SUCCESS"
+        }
+        onPress={async () => {
+          if (rideData?.status === "START") {
+            setIsOtpModalVisible(true);
+            return;
+          }
+          const isSuccess = await updateRideStatus(rideData?._id, "COMPLETED");
+          if (isSuccess) {
+            Alert.alert("Congratulations! you rock🎉");
+            resetAndNavigate("/captain/home");
+          } else {
+            Alert.alert("There was an error");
+          }
+        }}
+        color="#228B22"
+      />
     </View>
   );
 };
