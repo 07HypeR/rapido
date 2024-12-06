@@ -20,7 +20,7 @@ const CaptainLiveTracking: FC<{
   status: string;
 }> = ({ drop, status, pickup, captain }) => {
   const mapRef = useRef<MapView>(null);
-  const [isUserInteracting, setisUserInteracting] = useState(false);
+  const [isUserInteracting, setIsUserInteracting] = useState(false);
 
   const fitToMarkers = async () => {
     if (isUserInteracting) return;
@@ -79,13 +79,11 @@ const CaptainLiveTracking: FC<{
   };
 
   useEffect(() => {
-    if (pickup?.latitude && drop?.latitude) {
-      fitToMarkers();
-    }
+    if (pickup?.latitude && drop?.latitude) fitToMarkers();
   }, [drop?.latitude, pickup?.latitude, captain.latitude]);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ height: 100, width: 100 }}>
       <MapView
         ref={mapRef}
         followsUserLocation
@@ -97,8 +95,8 @@ const CaptainLiveTracking: FC<{
         showsIndoors={false}
         customMapStyle={customMapStyle}
         showsUserLocation={true}
-        onRegionChange={() => setisUserInteracting(true)}
-        onRegionChangeComplete={() => setisUserInteracting(false)}>
+        onRegionChange={() => setIsUserInteracting(true)}
+        onRegionChangeComplete={() => setIsUserInteracting(false)}>
         {captain?.latitude && pickup?.latitude && (
           <MapViewDirections
             origin={status === "START" ? pickup : captain}

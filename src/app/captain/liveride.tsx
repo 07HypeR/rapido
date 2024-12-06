@@ -9,6 +9,7 @@ import * as Location from "expo-location";
 import { resetAndNavigate } from "@/utils/Helpers";
 import CaptainLiveTracking from "@/components/captain/CaptainLiveTracking";
 import { updateRideStatus } from "@/service/rideService";
+import CaptainActionButton from "@/components/captain/CaptainActionButton";
 
 const CaptainLiveRide = () => {
   const [isOtpModalVisible, setIsOtpModalVisible] = useState(false);
@@ -20,15 +21,15 @@ const CaptainLiveRide = () => {
   const id = params.id;
 
   useEffect(() => {
-    let locationsSubcription: any;
+    let locationSubcription: any;
     const startLocationUpdates = async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status === "granted") {
-        locationsSubcription = await Location.watchPositionAsync(
+        locationSubcription = await Location.watchPositionAsync(
           {
             accuracy: Location.Accuracy.High,
-            timeInterval: 10000,
-            distanceInterval: 10,
+            timeInterval: 5000,
+            distanceInterval: 2,
           },
           (location) => {
             const { latitude, longitude, heading } = location.coords;
@@ -64,8 +65,8 @@ const CaptainLiveRide = () => {
     startLocationUpdates();
 
     return () => {
-      if (locationsSubcription) {
-        locationsSubcription.remove();
+      if (locationSubcription) {
+        locationSubcription.remove();
       }
     };
   }, [id]);
@@ -125,7 +126,7 @@ const CaptainLiveRide = () => {
       )}
 
       <CaptainActionButton
-        rideData={rideData}
+        ride={rideData}
         title={
           rideData?.status === "START"
             ? "ARRIVED"

@@ -19,7 +19,7 @@ const LiveTrackingMap: FC<{
   status: string;
 }> = ({ drop, status, height, pickup, captain }) => {
   const mapRef = useRef<MapView>(null);
-  const [isUserInteracting, setisUserInteracting] = useState(false);
+  const [isUserInteracting, setIsUserInteracting] = useState(false);
 
   const fitToMarkers = async () => {
     if (isUserInteracting) return;
@@ -72,9 +72,7 @@ const LiveTrackingMap: FC<{
   };
 
   useEffect(() => {
-    if (pickup?.latitude && drop?.latitude) {
-      fitToMarkers();
-    }
+    if (pickup?.latitude && drop?.latitude) fitToMarkers();
   }, [drop?.latitude, pickup?.latitude, captain.latitude]);
 
   return (
@@ -90,8 +88,8 @@ const LiveTrackingMap: FC<{
         showsIndoors={false}
         customMapStyle={customMapStyle}
         showsUserLocation={true}
-        onRegionChange={() => setisUserInteracting(true)}
-        onRegionChangeComplete={() => setisUserInteracting(false)}>
+        onRegionChange={() => setIsUserInteracting(true)}
+        onRegionChangeComplete={() => setIsUserInteracting(false)}>
         {captain?.latitude && pickup?.latitude && (
           <MapViewDirections
             origin={captain}
